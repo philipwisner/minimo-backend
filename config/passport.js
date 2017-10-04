@@ -13,9 +13,9 @@ function configure(passport) {
     done(null, user);
   });
 
-  passport.use(new LocalStrategy((username, password, next) => {
+passport.use(new LocalStrategy({usernameField: 'email'},(email, password, next) => {
     User.findOne({
-      username
+      email
     }, (err, user) => {
       if (err) {
         return next(err);
@@ -23,7 +23,7 @@ function configure(passport) {
 
       if (!user) {
         return next(null, false, {
-          message: 'Incorrect username'
+          message: 'Incorrect email'
         });
       }
 

@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
 const UserSchema = new Schema({
-  username: {
+  name: {
     type: String,
-    required: [true, 'Username is required']
+    required: [true, 'Your name is required']
   },
   email: {
     type: String,
@@ -28,7 +28,7 @@ UserSchema.methods.validPassword = function(password) {
 UserSchema.methods.asData = function() {
   return {
     id: this._id,
-    username: this.username,
+    name: this.name,
     email: this.email
   }
 };

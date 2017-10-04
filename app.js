@@ -16,10 +16,10 @@ const task = require('./routes/task');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost/app-todo-db');
+mongoose.connect('mongodb://localhost/minimo-db');
 
 app.use(session({
-  secret: 'todo-app',
+  secret: 'minimo-app',
   resave: true,
   saveUninitialized: true,
   store: new MongoStore({
@@ -42,9 +42,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/auth', auth);
-app.use('/task', task);
 
-// catch 404 and forward to error handler
+// catch 404 and forward to error handlerapp.use('/task', task);
+
 app.use(function(req, res, next) {
   response.notFound(req, res);
 });

@@ -25,13 +25,13 @@ router.post('/login', (req, res, next) => {
 
 router.post('/signup', (req, res, next) => {
   const {
-    username,
+    name,
     email,
     password
   } = req.body;
 
-  if (!username) {
-    return response.unprocessable(req, res, 'Missing mandatory field "Username".');
+  if (!name) {
+    return response.unprocessable(req, res, 'Missing mandatory field "Name".');
   }
   if (!password) {
     return response.unprocessable(req, res, 'Missing mandatory field "Password".');
@@ -41,21 +41,21 @@ router.post('/signup', (req, res, next) => {
   }
 
   User.findOne({
-    username
-  }, 'username', (err, userExists) => {
+    email
+  }, 'email', (err, userExists) => {
     if (err) {
       return next(err);
     }
     if (userExists) {
-      return response.unprocessable(req, res, 'Username already in use.');
+      return response.unprocessable(req, res, 'email already in use.');
     }
 
     const salt = bcrypt.genSaltSync(10);
     const hashPass = bcrypt.hashSync(password, salt);
 
     const newUser = User({
-      username,
       email,
+      name,
       password: hashPass
     });
 
