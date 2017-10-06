@@ -11,8 +11,9 @@ const passport = require('passport');
 
 const response = require('./helpers/response');
 const configure = require('./config/passport');
+
 const auth = require('./routes/auth');
-const task = require('./routes/task');
+const posts = require('./routes/post');
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/auth', auth);
+app.use('/posts', posts);
 
 // catch 404 and forward to error handlerapp.use('/task', task);
 

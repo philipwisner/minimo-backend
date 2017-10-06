@@ -14,6 +14,15 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: [true, 'Password is required']
+  },
+  description: {
+    type: String,
+  },
+  profilePhoto: {
+    type: String
+  },
+  colorTheme: {
+    type: String
   }
 });
 
@@ -29,9 +38,13 @@ UserSchema.methods.asData = function() {
   return {
     id: this._id,
     name: this.name,
-    email: this.email
+    email: this.email,
+    description: this.description,
+    profilePhoto: this.profilePhoto,
+    colorTheme: this.colorTheme
   }
 };
+
 
 const User = mongoose.model('User', UserSchema);
 
