@@ -5,7 +5,8 @@ const response = require('../helpers/response');
 
 //LIST ALL THE POSTS
 router.get('/', (req, res, next) => {
-  let filters = {};
+  console.log(req.user)
+  let filters = {userId: req.user._id};
   Post.find(filters, (err, posts) => {
     if (err) {
       return next(res);
@@ -17,23 +18,6 @@ router.get('/', (req, res, next) => {
   });
 });
 
-
-//ONE POST
-router.get('/:id', (req, res, next) => {
-  if (!req.params.id.match(/^[a-zA-Z0-9]{24}$/)) {
-    return response.notFound(req, res);
-  }
-  Post.findById(req.params.id, (err, post) => {
-    if (err) {
-      return next(err);
-    }
-    if (!post) {
-      return response.notFound(req, res);
-    }
-    let data = post.asData();
-    return response.data(req, res, data);
-  });
-});
 
 // //UPLOAD FILE
 // router.post('/upload', upload.single('file'), (req, res, next) => {
@@ -48,14 +32,12 @@ router.get('/:id', (req, res, next) => {
 
 //CREATE A POST
 router.post('/', (req, res, next) => {
-  console.log(req.body);
-  console.log('hi bitch!');
   const newPost = new Post({
     userId: req.user._id,
     // blogId: this.Blog._id,
     postTitle: req.body.postTitle,
     postContent: req.body.postContent,
-    // postDate: this.postDate,
+    postDate: new Date(),
   });
 
   newPost.save( (err) => {
