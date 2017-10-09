@@ -14,6 +14,7 @@ const configure = require('./config/passport');
 
 const auth = require('./routes/auth');
 const posts = require('./routes/post');
+const blog = require('./routes/blog');
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use(cookieParser());
 
 app.use('/auth', auth);
 app.use('/posts', posts);
+app.use('/blog', blog);
 
 // catch 404 and forward to error handlerapp.use('/task', task);
 

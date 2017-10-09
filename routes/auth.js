@@ -87,4 +87,26 @@ router.get('/me', (req, res) => {
   return response.notFound(req, res);
 });
 
+
+//Update USER profile
+router.put('/me', (req, res, next) => {
+
+  const userUpdate = {
+    description: req.body.description || req.user.description,
+  };
+  console.log(req.body.description);
+  console.log(req.user.description);
+
+  User.findByIdAndUpdate(req.user._id, userUpdate, {new: true}, (err, user) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return response.notFound(req, res);
+    }
+    let data = user.asData();
+    return response.data(req, res, data);
+  });
+});
+
 module.exports = router;
