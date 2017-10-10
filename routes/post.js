@@ -4,9 +4,22 @@ const Post = require('../models/post').Post;
 const response = require('../helpers/response');
 
 
-//LIST ALL THE POSTS
+//LIST ALL THE POSTS (NEWEST)
 router.get('/', (req, res, next) => {
   Post.find({userId: req.user._id}).sort({postDate : -1}).exec((err, posts) => {
+    if (err) {
+      return next(res);
+    }
+    let data = posts.map((post) => {
+      return post.asData();
+    });
+    return response.data(req, res, data);
+  });
+});
+
+router.get('/oldest', (req, res, next) => {
+  console.log('oldest backend')
+  Post.find({userId: req.user._id}).sort({postDate : 1}).exec((err, posts) => {
     if (err) {
       return next(res);
     }
