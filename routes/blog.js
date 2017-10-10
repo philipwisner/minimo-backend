@@ -6,8 +6,7 @@ const response = require('../helpers/response');
 
 // LIST ALL THE BLOGS
 router.get('/', (req, res, next) => {
-  let filters = {userId: req.user._id};
-  Blog.find(filters, (err, blogs) => {
+  Blog.find({userId: req.user._id}).sort({blogDate : -1}).exec((err, blogs) => {
     if (err) {
       return next(res);
     }

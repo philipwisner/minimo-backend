@@ -6,9 +6,7 @@ const response = require('../helpers/response');
 
 //LIST ALL THE POSTS
 router.get('/', (req, res, next) => {
-  console.log(req.user)
-  let filters = {userId: req.user._id};
-  Post.find(filters, (err, posts) => {
+  Post.find({userId: req.user._id}).sort({postDate : -1}).exec((err, posts) => {
     if (err) {
       return next(res);
     }
