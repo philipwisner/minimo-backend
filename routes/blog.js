@@ -58,10 +58,7 @@ router.post('/', (req, res, next) => {
 
   newBlog.save( (err) => {
     if (err) {
-      return response.unexpectedError(err);
-    }
-    if (newBlog.errors) {
-      return response.notFound(req, res);
+      return response.unexpectedError(req, res, err);
     }
     let data = newBlog.asData();
     return response.data(req, res, data);

@@ -80,13 +80,13 @@ router.post('/logout', (req, res) => {
 
 router.get('/me', (req, res) => {
   if (req.isAuthenticated()) {
-    let user = req.user;
-    return response.data(req, res, user.asData());
+    return User.findById(req.user._id, (err, user) => {
+      return response.data(req, res, user.asData());
+    });
   }
 
   return response.notFound(req, res);
 });
-
 
 //Update USER profile
 router.put('/me', (req, res, next) => {
