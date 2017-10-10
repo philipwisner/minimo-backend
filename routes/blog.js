@@ -7,14 +7,32 @@ const response = require('../helpers/response');
 // LIST ALL THE BLOGS
 router.get('/', (req, res, next) => {
   let filters = {userId: req.user._id};
-  Blog.find(filters, (err, posts) => {
+  Blog.find(filters, (err, blogs) => {
     if (err) {
       return next(res);
     }
-    let data = blogs.map((post) => {
+    let data = blogs.map((blog) => {
       return blog.asData();
     });
     return response.data(req, res, data);
+  });
+});
+
+
+//ONE BLOG
+router.get('/:id', (req, res, next) => {
+  if (!req.params.id.match(/^[a-zA-Z0-9]{24}$/)) {
+    return response.notFound(req, res);
+  }
+  Blog.findById(req.params.id, (err, blog) => {
+    if (err) {
+      return next(err);
+    }
+    if (!blog) {
+      return response.notFound(req, res);
+    }
+    let data = blog.asData();
+      return response.data(req, res, data);
   });
 });
 

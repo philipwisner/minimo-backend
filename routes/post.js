@@ -3,6 +3,7 @@ const router = express.Router();
 const Post = require('../models/post').Post;
 const response = require('../helpers/response');
 
+
 //LIST ALL THE POSTS
 router.get('/', (req, res, next) => {
   console.log(req.user)
