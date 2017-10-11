@@ -19,7 +19,8 @@ const UserSchema = new Schema({
     type: String,
   },
   profilePhoto: {
-    type: String
+    type: String,
+    default: '/uploads/profile.png'
   },
   colorTheme: {
     type: String

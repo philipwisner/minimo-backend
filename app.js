@@ -34,10 +34,15 @@ app.use(session({
   })
 }));
 
-app.use(cors({
+const corsOptions = {
+  origin: process.env.FRONT_END_URL ,
   credentials: true,
-  origin: [process.env.FRONT_END_URL]
-}));
+  allowedHeaders: ['Content-Type'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+};
+
+app.use(cors(corsOptions));
+
 
 configure(passport);
 
@@ -47,6 +52,7 @@ app.use(passport.session());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/auth', auth);
 app.use('/posts', posts);
