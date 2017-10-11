@@ -18,6 +18,8 @@ router.get('/', (req, res, next) => {
 });
 
 
+//I need to filter all the posts that have this blog id!
+
 //ONE BLOG
 router.get('/:id', (req, res, next) => {
   if (!req.params.id.match(/^[a-zA-Z0-9]{24}$/)) {

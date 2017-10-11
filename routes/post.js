@@ -6,7 +6,21 @@ const response = require('../helpers/response');
 
 //LIST ALL THE POSTS (NEWEST)
 router.get('/', (req, res, next) => {
-  Post.find({userId: req.user._id}).sort({postDate : -1}).exec((err, posts) => {
+  Post.find({userId: req.user._id, blogId : {"$exists" : false}}).sort({postDate : -1}).exec((err, posts) => {
+    if (err) {
+      return next(res);
+    }
+    let data = posts.map((post) => {
+      return post.asData();
+    });
+    return response.data(req, res, data);
+  });
+});
+
+
+// ALL THE POSTS THAT BELONG TO REQUESTED BLOG
+router.get('/blog/:id', (req, res, next) => {
+  Post.find({blogId: req.params.id}).sort({postDate : -1}).exec((err, posts) => {
     if (err) {
       return next(res);
     }
