@@ -105,7 +105,7 @@ router.post('/upload', upload.single('file'), (req, res, next) => {
 router.put('/me', (req, res, next) => {
   console.log(req.body.photo);
   const userUpdate = {
-    profilePhoto: req.body.photo || req.user.profilePhoto,
+    profilePhoto: req.body.profilePhoto || req.user.profilePhoto,
     description: req.body.description || req.user.description,
   };
 
