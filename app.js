@@ -1,3 +1,4 @@
+const dotenv = require('dotenv')
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
@@ -19,7 +20,7 @@ const blog = require('./routes/blog');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost/minimo-db');
+mongoose.connect(process.env.MONGO_DB_URL);
 
 app.use(session({
   secret: 'minimo-app',
@@ -32,7 +33,7 @@ app.use(session({
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:4200']
+  origin: [process.env.FRONT_END_URL]
 }));
 
 configure(passport);
