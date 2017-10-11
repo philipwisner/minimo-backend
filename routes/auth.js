@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt');
 const response = require('../helpers/response');
 const User = require('../models/user').User;
 
+const upload = require('../config/multer');
+
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
@@ -88,14 +90,24 @@ router.get('/me', (req, res) => {
   return response.notFound(req, res);
 });
 
+
+//UPLOAD FILE
+router.post('/upload', upload.single('file'), (req, res, next) => {
+  const data = {
+    userFileName: `/uploads/${req.file.filename}`
+
+  };
+  return response.data(req, res, data);
+});
+
+
 //Update USER profile
 router.put('/me', (req, res, next) => {
-
+  console.log(req.body.photo);
   const userUpdate = {
+    profilePhoto: req.body.photo || req.user.profilePhoto,
     description: req.body.description || req.user.description,
   };
-  console.log(req.body.description);
-  console.log(req.user.description);
 
   User.findByIdAndUpdate(req.user._id, userUpdate, {new: true}, (err, user) => {
     if (err) {

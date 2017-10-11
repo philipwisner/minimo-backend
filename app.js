@@ -8,6 +8,7 @@ const cors = require('cors');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
+const multer = require('multer');
 
 const response = require('./helpers/response');
 const configure = require('./config/passport');

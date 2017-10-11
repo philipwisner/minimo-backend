@@ -76,15 +76,6 @@ router.get('/blog/:id', (req, res, next) => {
 // });
 
 
-// //UPLOAD FILE
-// router.post('/upload', upload.single('file'), (req, res, next) => {
-//   const data = {
-//     fileName: `/uploads/${req.file.filename}`
-//
-//   };
-//   //console.log('upload: ', req.user);
-//   return response.data(req, res, data);
-// });
 
 
 //CREATE A POST
