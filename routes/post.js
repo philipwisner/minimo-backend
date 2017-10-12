@@ -6,7 +6,7 @@ const response = require('../helpers/response');
 
 //LIST ALL THE POSTS (NEWEST)
 router.get('/', (req, res, next) => {
-  Post.find({userId: req.user._id, blogId : {"$exists" : false}}).sort({postDate : -1}).exec((err, posts) => {
+  Post.find({blogId : {"$exists" : false}}).sort({postDate : -1} ).exec((err, posts) => {
     if (err) {
       return next(res);
     }
@@ -16,6 +16,48 @@ router.get('/', (req, res, next) => {
     return response.data(req, res, data);
   });
 });
+
+router.get('/posts', (req, res, next) => {
+    Post.find({userId: req.user._id, blogId : {"$exists" : false}}).sort({postDate : -1} ).exec((err, posts) => {
+      if (err) {
+        return next(res);
+      }
+      let data = posts.map((post) => {
+        return post.asData();
+      });
+      return response.data(req, res, data);
+    });
+  });
+
+
+//LIST ALL THE POSTS (NEWEST)
+router.get('/:id', (req, res, next) => {
+  if (!req.params.id.match(/^[a-zA-Z0-9]{24}$/)) {
+    return response.notFound(req, res);
+  }
+  Post.findById(req.params.id, (err, post) => {
+    if (err) {
+      return next(err);
+    }
+    if (!post) {
+      return response.notFound(req, res);
+    }
+    let data = post.asData();
+      return response.data(req, res, data);
+  });
+});
+
+//
+//   Post.find({userId: req.user._id, blogId : {"$exists" : false}}).sort({postDate : -1} ).exec((err, posts) => {
+//     if (err) {
+//       return next(res);
+//     }
+//     let data = posts.map((post) => {
+//       return post.asData();
+//     });
+//     return response.data(req, res, data);
+//   });
+// });
 
 
 // ALL THE POSTS THAT BELONG TO REQUESTED BLOG
@@ -96,7 +138,7 @@ router.post('/', (req, res, next) => {
     return response.data(req, res, data);
   });
 });
-
+//
 // frontend component -
 //    posts: Object[] | null;
 //    sort: string = "newest"
@@ -107,7 +149,7 @@ router.post('/', (req, res, next) => {
 //    ngOnInit -> loadPosts
 //    handleChange -> loadPosts
 // frontend service - http.get(baseUrl + '/user/' + userID + '/posts/' + sort);
-
+//
 // list all the posts from a user (minus the ones with a blogID)
 // /user/:id/posts/:sort
 // criteria = {
