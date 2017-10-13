@@ -8,6 +8,7 @@ const User = require('../models/user').User;
 
 const upload = require('../config/multer');
 
+
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
@@ -80,6 +81,7 @@ router.post('/logout', (req, res) => {
   return response.ok(req, res);
 });
 
+
 router.get('/me', (req, res) => {
   if (req.isAuthenticated()) {
     return User.findById(req.user._id, (err, user) => {
@@ -103,7 +105,6 @@ router.post('/upload', upload.single('file'), (req, res, next) => {
 
 //Update USER profile
 router.put('/me', (req, res, next) => {
-  console.log(req.body.photo);
   const userUpdate = {
     profilePhoto: req.body.profilePhoto || req.user.profilePhoto,
     description: req.body.description || req.user.description,

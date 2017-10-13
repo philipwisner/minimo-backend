@@ -4,7 +4,7 @@ const Blog = require('../models/blog').Blog;
 const response = require('../helpers/response');
 
 
-// LIST ALL THE BLOGS
+// LIST ALL THE BLOGS PER USER
 router.get('/', (req, res, next) => {
   Blog.find({userId: req.user._id}).sort({blogDate : -1}).exec((err, blogs) => {
     if (err) {
@@ -18,9 +18,7 @@ router.get('/', (req, res, next) => {
 });
 
 
-//I need to filter all the posts that have this blog id!
-
-//ONE BLOG
+//GET INDIVIDUAL BLOG INFO
 router.get('/:id', (req, res, next) => {
   if (!req.params.id.match(/^[a-zA-Z0-9]{24}$/)) {
     return response.notFound(req, res);
@@ -36,16 +34,6 @@ router.get('/:id', (req, res, next) => {
       return response.data(req, res, data);
   });
 });
-
-// //UPLOAD FILE
-// router.post('/upload', upload.single('file'), (req, res, next) => {
-//   const data = {
-//     fileName: `/uploads/${req.file.filename}`
-//
-//   };
-//   //console.log('upload: ', req.user);
-//   return response.data(req, res, data);
-// });
 
 
 //CREATE A BLOG
@@ -66,8 +54,6 @@ router.post('/', (req, res, next) => {
     return response.data(req, res, data);
   });
 });
-
-
 
 
 module.exports = router;

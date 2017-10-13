@@ -8,7 +8,7 @@ const BlogSchema = new Schema({
   userId:          { type: Schema.Types.ObjectId, ref: 'User' },
   blogName:        { type: String },
   blogDescription: { type: String },
-  blog_image:      { type: String },
+  blogImage:      { type: String },
   blogDate:        { type: Date }
 });
 
