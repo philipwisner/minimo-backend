@@ -17,6 +17,7 @@ router.get('/', (req, res, next) => {
   });
 });
 
+
 //GET ALL THE POSTS (THAT BELONG TO LOGGED IN USER)
 router.get('/posts', (req, res, next) => {
     Post.find({userId: req.user._id, blogId : {"$exists" : false}}).sort({postDate : -1} ).exec((err, posts) => {
@@ -29,6 +30,19 @@ router.get('/posts', (req, res, next) => {
       return response.data(req, res, data);
     });
   });
+
+//GET ALL THE POSTS (THAT BELONG TO LOGGED IN USER) - REVERSE ORDER
+router.get('/reverse', (req, res, next) => {
+  Post.find({userId: req.user._id, blogId : {"$exists" : false}}).sort({postDate: 1}).exec((err, posts) => {
+    if (err) {
+      return next(res);
+    }
+    let data = posts.map((post) => {
+      return post.asData();
+    });
+    return response.data(req, res, data);
+  });
+});
 
 
   // ALL THE POSTS THAT BELONG TO REQUESTED BLOG
