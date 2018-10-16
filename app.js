@@ -18,12 +18,16 @@ const auth = require('./routes/auth');
 const posts = require('./routes/post');
 const blog = require('./routes/blog');
 
-const app = express();
 
 require("dotenv").config();
 
 
-mongoose.connect(process.env.MONGO_DB_URL);
+mongoose.connect(process.env.MONGO_DB_URL), {
+  useMongoClient: true
+};
+
+const app = express();
+
 
 app.use(session({
   secret: 'minimo-app',
@@ -35,7 +39,7 @@ app.use(session({
 }));
 
 const corsOptions = {
-  origin: process.env.FRONT_END_URL ,
+  origin: process.env.FRONT_END_URL,
   credentials: true,
   allowedHeaders: ['Content-Type'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],

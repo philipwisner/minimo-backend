@@ -82,6 +82,35 @@ router.post('/logout', (req, res) => {
 });
 
 
+router.get('/google', (req, res, next) => {
+  console.log('reached google function');
+  console.log('passport auth google is', passport.authenticate('local'));
+  passport.authenticate("google", {
+    scope: [
+      "https://www.googleapis.com/auth/plus.login",
+      "https://www.googleapis.com/auth/plus.profile.emails.read"
+    ],
+  })(req, res, next);
+});
+
+
+// router.get("/google", passport.authenticate("google", {
+//   scope: ["https://www.googleapis.com/auth/plus.login",
+//     "https://www.googleapis.com/auth/plus.profile.emails.read"
+//   ],
+// }));
+
+router.get("/google/callback", (req, res, next) => {
+  console.log('reached google callback');
+  passport.authenticate("google", {
+    failureRedirect: "/",
+    successRedirect: "/"
+  })(req, res, next);
+});
+
+
+
+
 router.get('/me', (req, res) => {
   if (req.isAuthenticated()) {
     return User.findById(req.user._id, (err, user) => {
