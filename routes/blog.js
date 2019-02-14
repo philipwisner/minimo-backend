@@ -17,6 +17,20 @@ router.get('/', (req, res, next) => {
   });
 });
 
+//GET ALL THE BLOGS (THAT BELONG TO LOGGED IN USER) - REVERSE ORDER
+router.get('/reverse', (req, res, next) => {
+  Blog.find({userId: req.user._id}).sort({blogDate : 1}).exec((err, blogs) => {
+    if (err) {
+      return next(res);
+    }
+    let data = blogs.map((blog) => {
+      return blog.asData();
+    });
+    return response.data(req, res, data);
+  });
+});
+
+
 
 //GET INDIVIDUAL BLOG INFO
 router.get('/:id', (req, res, next) => {
